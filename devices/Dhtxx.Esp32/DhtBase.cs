@@ -227,6 +227,13 @@ namespace Iot.Device.DHTxx.Esp32
                     IsLastReadSuccessful = false;
                 }
             }
+            else
+            {
+                //If the sensor (DHT) is unplugged from the ESP32, IsLastReadSuccessful is always true and _readBuff keep last value and sent it as sensor value, so system cant detect that the unplugging happened.!! 
+                //With this line we clear _readBuff adn set IsLastReadSuccessful to false if no valid data recive from sensor.
+                IsLastReadSuccessful = false;
+                _readBuff = new byte[5];
+            }
         }
 
         /// <summary>
